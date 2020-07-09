@@ -47,21 +47,23 @@ export default {
     return {
       currentUserReference: [],
       currentUsers: [],
-      dbUsers: [],
       currentUserInformation: true,
       editProfile: false,
       updateUserName: "",
       db: [],
       usersRef: [],
       newMail: "",
-      displayUsers: []
+      displayUsers: {}
     };
   },
   created() {
+    console.log("created called");
     this.$nextTick(function() {
+      console.log("nextTick callback called");
       const self = this;
       // ログインユーザーを参照
       firebase.auth().onAuthStateChanged(function(user) {
+        console.log("onAuthStateChanged callback called");
         if (user) {
           self.currentUserReference = user;
           console.log("Reference", self.currentUserReference);
@@ -76,15 +78,18 @@ export default {
         self.db = firebase.firestore();
         self.usersRef = self.db.collection("users");
         self.usersRef.onSnapshot(snapshot => {
+          console.log("onSnapShot callback called");
+          const dbUsers = [];
           snapshot.docs.forEach(doc => {
-            self.dbUsers.push(doc.data());
-            console.log(self.dbUsers);
+            dbUsers.push(doc.data());
           });
-          //  console.log('current',self.currentUserReference);
+          console.log("dbUsers", dbUsers);
+         //  console.log('current',self.currentUserReference);
           //現在のログインユーザーを取得
-          self.currentUsers = self.dbUsers.filter(item => {
+          self.currentUsers = dbUsers.filter(item => {
             return item.uid === copyUsre.uid;
           });
+          console.log("currentUsers", self.currentUsers);
           self.displayUsers = self.currentUsers[0];
           console.log("ログインユーザー", self.displayUsers);
         });
