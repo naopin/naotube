@@ -6,7 +6,10 @@
           <p class="navbar_log">Shares</p>
           <ul>
             <li>
-              <router-link to="/signin">SHARE</router-link>
+              <router-link to="/share">SHARE</router-link>
+            </li>
+              <li>
+              <router-link to="/profile">PROFILE</router-link>
             </li>
             <li>
                <button @click="logout">ログアウト</button>
@@ -15,41 +18,43 @@
         </div>
       </div>
     </nav>
-    <div id="menu">
-      <button class="menu-list" v-for="item in menu_list" :key="item.name">{{item.name}}</button>
-    </div>
+    <SelctMenu></SelctMenu>
   </header>
 </template>
 
 
 <script>
 import firebase from "firebase";
+import SelctMenu from "../components/SelctMenu"
 export default {
+  components: {SelctMenu},
   name: "Header",
-  data() {
-    return {
-      menu_list: [
-        { name: "Javascript" },
-        { name: "Vue.js" },
-        { name: "React" },
-        { name: "Angular" },
-        { name: "Node.js" },
-        { name: "Other" }
-      ]
-    };
-  },
   methods: {
       logout: function() {
       firebase
         .auth()
         .signOut()
         .then(() => {
-          this.$router.push("/");
+        //   this.$router.push("/");
         })
         .catch(error => {
           alert(error.message);
         });
     },
+  },
+  created() {
+    this.$nextTick(function() {
+      firebase.auth().onAuthStateChanged((user)=> {
+        if (user) {
+          console.log("ログイン中", user);
+        
+        } else {
+          console.log("ログインアウト中");
+         this.$router.push("/");
+        }
+      });
+    });
+    // console.log(this.navbar); // =null
   }
 };
 </script>
@@ -87,47 +92,4 @@ a:hover {
   text-shadow: 2px 2px 3px #acabab;
 }
 
-#menu {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  font-size: 2em;
-  text-shadow: 6px 6px 10px #acabab;
-  box-shadow: 0 3px 6px rgba(0, 0, 0, 0.5);
-  background: #e9e9e8;
-}
-.menu-list {
-  padding: 1rem 3rem;
-
-  cursor: pointer;
-}
-.menu-list:nth-child(1):hover {
-  background: rgb(250, 253, 60);
-}
-.menu-list:nth-child(2):hover {
-  background: rgb(116, 255, 60);
-}
-.menu-list:nth-child(3):hover {
-  background: rgb(60, 226, 255);
-}
-.menu-list:nth-child(4):hover {
-  background: rgb(253, 60, 60);
-}
-.menu-list:nth-child(5):hover {
-  background: rgb(60, 253, 108);
-}
-.menu-list:nth-child(6):hover {
-  background: rgb(182, 182, 182);
-}
-
-button {
-  color: rgb(97, 97, 97);
-  padding: 8px 15px;
-  border-radius: 5px;
-  box-shadow: 5px 5px 6px -3px rgba(0, 0, 0, 0.5);
-  font-weight: 300;
-  border: none; /* 枠線を消す */
-  outline: none; /* クリックしたときに表示される枠線を消す */
-  background: transparent;
-}
 </style>
