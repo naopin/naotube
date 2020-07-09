@@ -12,22 +12,22 @@
               <router-link to="/profile">PROFILE</router-link>
             </li>
             <li>
-               <button @click="logout">ログアウト</button>
+               <button class="signoutbutton" @click="logout">SIGNOUT</button>
             </li>
           </ul>
         </div>
       </div>
     </nav>
-    <SelctMenu></SelctMenu>
+    <!-- <SelctMenu></SelctMenu> -->
   </header>
 </template>
 
 
 <script>
 import firebase from "firebase";
-import SelctMenu from "../components/SelctMenu"
+// import SelctMenu from "../components/SelctMenu"
 export default {
-  components: {SelctMenu},
+  // components: {SelctMenu},
   name: "Header",
   methods: {
       logout: function() {
@@ -50,7 +50,6 @@ export default {
         
         } else {
           console.log("ログインアウト中");
-         this.$router.push("/");
         }
       });
     });
@@ -79,8 +78,14 @@ li {
   text-decoration: none;
   padding: 1rem;
 }
+.signoutbutton {
+  color: rgb(97, 97, 97);
+  border: none; /* 枠線を消す */
+  outline: none; /* クリックしたときに表示される枠線を消す */
+  background: transparent;
+}
 
-a:hover {
+a:hover, .signoutbutton:hover {
   color: rgb(160, 160, 160);
 }
 
