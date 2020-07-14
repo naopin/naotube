@@ -25,18 +25,16 @@
         </div>
       </div>
     </nav>
-    <SelctMenu></SelctMenu>
+    <!-- <SelctMenu></SelctMenu> -->
   </header>
 </template>
-
-
 <script>
-import SelctMenu from "../components/SelctMenu";
+// import SelctMenu from "../components/SelctMenu";
 import MyModal from "../components/Mymodal";
-import SignIn from "../views/SignIn";
-import SignUp from "../views/SignUp";
+import SignIn from "../components/SignIn";
+import SignUp from "../components/SignUp";
 export default {
-  components: { SelctMenu, MyModal, SignIn, SignUp },
+  components: {  MyModal, SignIn, SignUp },
   name: "Header",
   data() {
     return {
@@ -82,7 +80,21 @@ li {
   padding: 1rem;
 }
 
-a:hover {
+.modal-window {
+  background: #f6f6f6;
+}
+
+button {
+  color: blue;
+  border: none; /* 枠線を消す */
+  outline: none; /* クリックしたときに表示される枠線を消す */
+  background: transparent;
+  text-shadow: 2px 2px 3px #acabab;
+  cursor: pointer;
+}
+
+
+button:hover {
   color: rgb(160, 160, 160);
 }
 

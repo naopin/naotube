@@ -6,51 +6,52 @@
           <p class="navbar_log">Shares</p>
           <ul>
             <li>
+              <router-link to="/">HOME</router-link>
+            </li>
+            <li>
               <router-link to="/share">SHARE</router-link>
             </li>
-              <li>
+            <li>
               <router-link to="/profile">PROFILE</router-link>
             </li>
             <li>
-               <button @click="logout">ログアウト</button>
+              <button class="signoutbutton" @click="logout">SIGNOUT</button>
             </li>
           </ul>
         </div>
       </div>
     </nav>
-    <SelctMenu></SelctMenu>
+    <!-- <SelctMenu></SelctMenu> -->
   </header>
 </template>
 
 
 <script>
 import firebase from "firebase";
-import SelctMenu from "../components/SelctMenu"
+// import SelctMenu from "../components/SelctMenu"
 export default {
-  components: {SelctMenu},
+  // components: {SelctMenu},
   name: "Header",
   methods: {
-      logout: function() {
+    logout: function() {
       firebase
         .auth()
         .signOut()
         .then(() => {
-        //   this.$router.push("/");
+          //   this.$router.push("/");
         })
         .catch(error => {
           alert(error.message);
         });
-    },
+    }
   },
   created() {
     this.$nextTick(function() {
-      firebase.auth().onAuthStateChanged((user)=> {
+      firebase.auth().onAuthStateChanged(user => {
         if (user) {
           console.log("ログイン中", user);
-        
         } else {
           console.log("ログインアウト中");
-         this.$router.push("/");
         }
       });
     });
@@ -79,8 +80,21 @@ li {
   text-decoration: none;
   padding: 1rem;
 }
+.signoutbutton {
+  color: blue;
+  border: none; /* 枠線を消す */
+  outline: none; /* クリックしたときに表示される枠線を消す */
+  background: transparent;
+  text-shadow: 2px 2px 3px #acabab;
+}
 
-a:hover {
+a {
+  color: blue;
+  text-shadow: 2px 2px 3px #acabab;
+}
+
+a:hover,
+.signoutbutton:hover {
   color: rgb(160, 160, 160);
 }
 
@@ -91,5 +105,4 @@ a:hover {
   padding: 1rem;
   text-shadow: 2px 2px 3px #acabab;
 }
-
 </style>
